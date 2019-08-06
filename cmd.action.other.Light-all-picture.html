@@ -1,0 +1,64 @@
+<div style="width:90px;min-height:80px;" class="cmd tooltips cmd-widget cursor" data-type="action" data-subtype="other" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+  	<center>
+        <div style="font-weight: bold;font-size : 12px;#hideCmdName#">#valueName#</div>
+        <span style="font-size: 2.5em;font-weight: bold;margin-top: 5px;" class="iconCmd"></span>
+      		<a class="btn btn-sm btn-default action cmdName tooltips" title="#name#" style="background-color: transparent !important;border-color : transparent !important;"></a>
+
+    </center>
+    <script>
+      
+        jeedom.cmd.update['#id#'] = function(_options){
+                		/* Attributs list :
+		- equipImg : image name in lower case, use in the follow list :
+        							Led-cob,
+                                    Spot-cob,
+                                    Lampe-pied-bois,
+                                    Lampe-mapmode-verre,
+                                    Lampe-ext-ancien-metal,
+                                    Lampe-ext-ancien-metal-x3,
+                                    Lampe-bateau-alu,
+                                    Lampe-neon-x2,
+                                    Lampe-suspendu-metal-x12,
+		- heightImage : height in pixel of image to show default is 80
+		- widthImage : 	width in pixel of image to show default is 80
+		*/
+
+		var equipImg = "#equipImg#";
+		var imgHeight;
+		var imgWidth;
+		if (!isNaN(parseFloat("#heightImage#"))) {
+			imgHeight = "#heightImage#";
+		} else {
+			imgHeight = "80";
+		}
+		if (!isNaN(parseFloat("#widthImage#"))) {
+		 imgWidth = "#widthImage#";
+		} else {
+		 imgWidth = "80";
+		}
+		if(equipImg == ""){
+			equipImg = "Led-cob";
+		}
+
+            if (_options.display_value == '1' || _options.display_value == 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
+                if (jeedom.cmd.normalizeName('#name#') == 'on') {
+                    $('.cmd[data-cmd_id=#id#]').hide();
+                }else{
+                    $('.cmd[data-cmd_id=#id#]').show();
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().append("<img style='height:" + imgHeight + "px;width:" + imgWidth + "px;' src='plugins/widget/core/template/dashboard/cmd.action.other.Light-all-picture/" + equipImg + "_OK.png'>");
+                }
+            } else {
+                if (jeedom.cmd.normalizeName('#name#') == 'off') {
+                    $('.cmd[data-cmd_id=#id#]').hide();
+                }else{
+                    $('.cmd[data-cmd_id=#id#]').show();
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().append("<img style='height:" + imgHeight + "px;width:" + imgWidth + "px;' src='plugins/widget/core/template/dashboard/cmd.action.other.Light-all-picture/" + equipImg + "_NOK.png'>");
+                }
+            }
+        }
+        jeedom.cmd.update['#id#']({display_value:'#state#'});
+        $('.cmd[data-cmd_uid=#uid#] .iconCmd').off().on('click', function () {
+            jeedom.cmd.execute({id: '#id#'});
+        });
+    </script>
+</div>
